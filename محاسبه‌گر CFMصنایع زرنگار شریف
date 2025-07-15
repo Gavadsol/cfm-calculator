@@ -1,93 +1,84 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <title>محاسبه‌گر CFM – صنایع زرنگار شریف</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 450px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-      direction: rtl;
-      text-align: center;
-    }
-    h1 { margin-bottom: 20px; color: #0078D7; }
-    label, input { display: block; width: 100%; margin-top: 10px; font-size: 16px; }
-    input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background: #0078D7;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 20px;
-      padding: 12px;
-      background: #f5f5f5;
-      border-radius: 6px;
-    }
-    footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #888;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>محاسبه‌گر CFM</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="body {
+  font-family: sans-serif;
+  direction: rtl;
+  padding: 20px;
+  background: #f7f7f7;
+  color: #333;
+}
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+label {
+  display: block;
+  margin-top: 15px;
+}
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+button {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+#result {
+  margin-top: 20px;
+  font-weight: bold;
+}
+">
 </head>
 <body>
-  <h1>صنایع زرنگار شریف</h1>
-  <p>محاسبه‌گر CFM (مقدار گردش هوا)</p>
+  <h1>شرکت صنایع زرنگار شریف - تولید کننده مکندهای صنعتی</h1>
+  <div class="container">
+    <label for="length">طول (متر):</label>
+    <input type="number" id="length" />
 
-  <label for="length">طول اتاق (متر):</label>
-  <input type="number" id="length" placeholder="مثلاً 5" step="0.01">
+    <label for="width">عرض (متر):</label>
+    <input type="number" id="width" />
 
-  <label for="width">عرض اتاق (متر):</label>
-  <input type="number" id="width" placeholder="مثلاً 4" step="0.01">
+    <label for="height">ارتفاع (متر):</label>
+    <input type="number" id="height" />
 
-  <label for="height">ارتفاع سقف (متر):</label>
-  <input type="number" id="height" placeholder="مثلاً 3" step="0.01">
+    <label for="ach">تعداد تعویض هوا در ساعت (ACH):</label>
+    <input type="number" id="ach" />
 
-  <label for="ach">تعداد تعویض هوا در ساعت (ACH):</label>
-  <input type="number" id="ach" placeholder="مثلاً 6" step="0.1">
+    <button onclick="calculateCFM()">محاسبه CFM</button>
 
-  <button onclick="calculateCFM()">محاسبه کن</button>
+    <div id="result"></div>
+  </div>
 
-  <div id="result"></div>
+  <script src="function calculateCFM() {
+  const length = parseFloat(document.getElementById("length").value);
+  const width = parseFloat(document.getElementById("width").value);
+  const height = parseFloat(document.getElementById("height").value);
+  const ach = parseFloat(document.getElementById("ach").value);
 
-  <footer>
-    © 2025 صنایع زرنگار شریف
-  </footer>
+  if (isNaN(length) || isNaN(width) || isNaN(height) || isNaN(ach)) {
+    alert("لطفاً همه مقادیر را به‌درستی وارد کنید");
+    return;
+  }
 
-  <script>
-    function calculateCFM() {
-      const l = parseFloat(document.getElementById('length').value);
-      const w = parseFloat(document.getElementById('width').value);
-      const h = parseFloat(document.getElementById('height').value);
-      const ach = parseFloat(document.getElementById('ach').value);
-      const res = document.getElementById('result');
-
-      if (![l, w, h, ach].every(v => !isNaN(v) && v > 0)) {
-        res.innerHTML = "<span style='color:red'>لطفاً همه مقادیر را به‌درستی وارد کنید.</span>";
-        return;
-      }
-      const m3 = l * w * h;
-      const ft3 = m3 * 35.3147;
-      const cfm = ft3 * ach / 60;
-
-      res.innerHTML = `
-        حجم اتاق: <strong>${m3.toFixed(2)}</strong> متر³<br>
-        معادل: <strong>${ft3.toFixed(2)}</strong> فوت³<br>
-        🔧 <strong>CFM نیازمندی: ${cfm.toFixed(2)}</strong>
-      `;
-    }
-  </script>
+  const volume = length * width * height;
+  const cfm = (volume * ach) / 60;
+  document.getElementById("result").innerText = `مقدار CFM مورد نیاز: ${cfm.toFixed(2)}`;
+}"></script>
+  <script src="sw-register.js"></script>
 </body>
 </html>
